@@ -4,3 +4,4 @@ pydantic
 pymongo
 beanie
 dotenv
+passlib[bcrypt]
