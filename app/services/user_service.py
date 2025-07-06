@@ -1,23 +1,17 @@
 from http.client import HTTPException
+from os.path import exists
+from app.core.security import hash_password,verify_password, create_access_token
 from fastapi import HTTPException
 from app.models.user_model import User
-from app.schemas.user_schema import UserCreate
-from passlib.context import CryptContext
-
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
-def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
-
-
-def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+from app.schemas.user_schema import UserCreate, UserLogin
+from passlib.hash import argon2
 
 
 async def create_user(user_data: UserCreate) ->  User:
     # CHECK IF USERNAME EXISTS
-    exists = User.find_one(User.username == user_data.username)
-    if exists:
+    existing = await User.find_one(User.username == user_data.username)
+    print(exists)
+    if existing:
         raise HTTPException(status_code=400, detail="Username already exists")
 
     user_data.password = hash_password(user_data.password)
@@ -29,5 +23,20 @@ async def create_user(user_data: UserCreate) ->  User:
     return user
 
 
-async def get_all_user():
-    pass
+async def authenticate_user(credentials: UserLogin):
+    # CHECK IF USERNAME EXISTS
+    user = await User.find_one(User.username == credentials.username)
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+    # CHECK IF PASSWORD IS VALID
+    if not verify_password(credentials.password, user.password):
+        raise HTTPException(status_code=401, detail="Invalid credentials")
+
+    token_data = {
+        "sub": str(user.id),
+        "username": user.username
+    }
+
+    token = create_access_token(token_data)
+
+    return token

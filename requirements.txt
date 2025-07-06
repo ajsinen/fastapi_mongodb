@@ -4,4 +4,8 @@ pydantic
 pymongo
 beanie
 dotenv
-passlib[bcrypt]
+pyjwt
+jose
+python-jose[cryptography]
+passlib
+passlib[argon2]
