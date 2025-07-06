@@ -1,9 +1,10 @@
 from http.client import HTTPException
+from os import access
 from os.path import exists
 from app.core.security import hash_password,verify_password, create_access_token
 from fastapi import HTTPException
 from app.models.user_model import User
-from app.schemas.user_schema import UserCreate, UserLogin
+from app.schemas.user_schema import UserCreate, UserLogin, TokenResponse
 from passlib.hash import argon2
 
 
@@ -23,7 +24,7 @@ async def create_user(user_data: UserCreate) ->  User:
     return user
 
 
-async def authenticate_user(credentials: UserLogin):
+async def authenticate_user(credentials: UserLogin) -> TokenResponse:
     # CHECK IF USERNAME EXISTS
     user = await User.find_one(User.username == credentials.username)
     if not user:
@@ -38,5 +39,7 @@ async def authenticate_user(credentials: UserLogin):
     }
 
     token = create_access_token(token_data)
-
-    return token
+    data = TokenResponse(
+        access_token=token
+    )
+    return data

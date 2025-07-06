@@ -17,7 +17,7 @@ async def test_todo(request: UserCreate) -> RespModel:
 
 
 @user_route.post("/login")
-async def log_in(credential: UserLogin):
+async def log_in(credential: UserLogin) -> RespModel:
     token = await authenticate_user(credential)
 
     return RespModel(message="Success", data=token)
