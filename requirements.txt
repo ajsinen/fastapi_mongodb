@@ -9,3 +9,4 @@ jose
 python-jose[cryptography]
 passlib
 passlib[argon2]
+pydantic[email]
