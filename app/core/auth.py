@@ -26,6 +26,6 @@ async def get_current_user(token: str = Depends(oauth2_scheme)) -> DecodedToken:
         raise credentials_exception
 
     return DecodedToken(
-        id=user.id,
+        id=str(user.id),
         username=user.username
     )

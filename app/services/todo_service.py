@@ -16,3 +16,10 @@ async def create_new_todo(token: DecodedToken, request: ToDoBody):
     await ToDo.insert_one(todo)
 
     return todo
+
+
+async def get_todo_list(token: DecodedToken) -> list[ToDo]:
+
+    todo_list = await ToDo.find(ToDo.created_by == token.id).to_list()
+    print("TODO LIST",todo_list)
+    return todo_list

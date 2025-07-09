@@ -17,4 +17,3 @@ class TokenResponse(BaseModel):
 class DecodedToken(BaseModel):
     id:BeanieObjectId
     username:str
-
