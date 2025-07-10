@@ -1,6 +1,6 @@
 from os import access
 from os.path import exists
-from app.core.security import hash_password,verify_password, create_access_token
+from app.core.security import hash_password,verify_password, create_access_token, is_valid_password
 from fastapi import HTTPException
 from app.models.user_model import User
 from app.schemas.user_schema import UserCreate, UserLogin, TokenResponse
@@ -13,6 +13,13 @@ async def create_user(user_data: UserCreate) ->  User:
     print(exists)
     if existing:
         raise HTTPException(status_code=400, detail="Username already exists")
+
+    # CHECK IF PASSWORD MEED STANDARD PASSWORD
+    is_password_standard = is_valid_password(user_data.password)
+    if not is_password_standard:
+        raise HTTPException(status_code=400,
+                            detail="Password must be at least 8 characters long and include at least one "
+                                   "uppercase letter, one lowercase letter, one digit, and one special character.")
 
     user_data.password = hash_password(user_data.password)
     user = User(**user_data.model_dump())
