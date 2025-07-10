@@ -5,9 +5,13 @@ from pytz import timezone
 from zoneinfo import ZoneInfo
 
 
-class Category(BaseModel):
-    name: str
+class TodoCategory(Document):
+    title: str
     description: str
+    created_at: datetime = datetime.now(timezone("Asia/Manila"))
+
+    class Settings:
+        name = "todo_categories"
 
 
 class ToDo(Document):
@@ -20,5 +24,6 @@ class ToDo(Document):
 
     class Settings:
         name = "todos"
+
 
 
