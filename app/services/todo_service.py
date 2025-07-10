@@ -2,6 +2,8 @@
     Business Logics of api are placed here
 """
 from fastapi import HTTPException
+from unicodedata import category
+
 from app.schemas.user_schema import DecodedToken
 from typing import Annotated
 from app.models.todo_model import ToDo, TodoCategory
@@ -16,6 +18,7 @@ class TodoService:
         todo = ToDo(
             title=request.title,
             description=request.description,
+            category_id=BeanieObjectId(request.category_id),
             created_by=token.id
         )
         await ToDo.insert_one(todo)
