@@ -16,6 +16,6 @@ DEFAULT_CATEGORIES = [
 
 async def seed_todo_categories():
     for category in DEFAULT_CATEGORIES:
-        exists = await TodoCategory.find_one(category.get("name") == TodoCategory.title)
+        exists = await TodoCategory.find_one(category.get("title") == TodoCategory.title)
         if not exists:
             await TodoCategory(**category).insert()

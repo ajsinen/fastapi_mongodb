@@ -1,12 +1,11 @@
-from beanie import Document, BeanieObjectId
-from pydantic import BaseModel, Field
+from beanie import Document, BeanieObjectId, Indexed
+from pydantic import Field
 from datetime import datetime
 from pytz import timezone
-from zoneinfo import ZoneInfo
 
 
 class TodoCategory(Document):
-    title: str
+    title: Indexed(str, unique=True)
     description: str
     created_at: datetime = datetime.now(timezone("Asia/Manila"))
 
