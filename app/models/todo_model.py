@@ -16,6 +16,7 @@ class TodoCategory(Document):
 class ToDo(Document):
     title: str
     description: str
+    category_id: BeanieObjectId
     created_by: BeanieObjectId
     created_at: datetime = Field(
         default_factory=lambda: datetime.now(timezone("Asia/Manila"))
