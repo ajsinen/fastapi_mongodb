@@ -1,16 +1,13 @@
-from os import access
-from os.path import exists
 from app.core.security import hash_password,verify_password, create_access_token, is_valid_password
 from fastapi import HTTPException
 from app.models.user_model import User
 from app.schemas.user_schema import UserCreate, UserLogin, TokenResponse
-from passlib.hash import argon2
 
 
-async def create_user(user_data: UserCreate) ->  User:
+async def create_user(user_data: UserCreate) -> User:
     # CHECK IF USERNAME EXISTS
     existing = await User.find_one(User.username == user_data.username)
-    print(exists)
+    print(existing)
     if existing:
         raise HTTPException(status_code=400, detail="Username already exists")
 
