@@ -3,7 +3,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from app.core.config import MONGO_URI
 from app.models.user_model import User
 from app.models.todo_model import ToDo, TodoCategory
-from app.db.seed import seed_todo_categories
+from app.core.seed import seed_todo_categories
 
 
 async def init_db():

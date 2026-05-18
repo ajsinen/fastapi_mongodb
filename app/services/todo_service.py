@@ -33,7 +33,6 @@ class TodoService:
 
         return todo_list
 
-
     @staticmethod
     async def update_todo(todo_id: str, token: DecodedToken, request_body: UpdateTodo):
         try:

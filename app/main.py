@@ -3,7 +3,7 @@ from fastapi import FastAPI
 from app.api.todo_route import todo_router
 from app.api.user_route import user_route
 from app.api.health_route import health_router
-from app.db.db_connection import init_db
+from app.core.db_connection import init_db
 
 
 @asynccontextmanager
